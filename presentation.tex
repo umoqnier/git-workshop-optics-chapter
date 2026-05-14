@@ -11,13 +11,8 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{booktabs}
-%\usepackage{emoji}
-
-\DeclareMathOperator{\sen}{sen}
-\DeclareMathOperator{\tg}{tg}
 
 \setbeamertemplate{caption}[numbered]
-
 
 \title[C**dre Overleaf]{Trascendiendo \textit{Overleaf}}
 \subtitle{Escribiendo papers colaborativos con \texttt{git} + \LaTeX\ + LLMs opensource}
@@ -38,8 +33,6 @@
 }
 \setbeamertemplate{navigation symbols}{}
 
-%\newcommand{\email}{email}
-
 \bibliographystyle{apalike}
 
 % La agenda se mostrará al inicio de cada sección
@@ -55,6 +48,30 @@
 
 \begin{frame}
 	\titlepage
+\end{frame}
+
+\begin{frame}{Presentación}
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/qr.png}\\
+	\small \url{https://github.com/umoqnier/git-workshop-optics-chapter/}
+\end{frame}
+
+\begin{frame}{\texttt{\$ whoami}}
+	\begin{columns}
+		\begin{column}{0.6\textwidth}
+			\begin{itemize}
+				\item Ingeniero en Computación @ FI, UNAM
+				\item Maestrante @ PCIC, UNAM
+				\item Colaborador en proyectos de software libre @ Elotl, LIDSoL
+				\item Me late la cultura libre, la ciencia ficción y andar en bici sin frenos
+			\end{itemize}
+		\end{column}
+
+		\begin{column}{0.4\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/d_low.jpg}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}{Contenido}
@@ -77,6 +94,10 @@
 \LARGE Aquí aprenderas a usar \texttt{git} para crear \alert{trabajos colaborativos} en \LaTeX\ con un \textit{twist} de límon\footnote{LLMs locales}
 \end{frame}
 
+\begin{frame}{Disclaimer III (La venganza de los Sith)}
+\Large Estas herramientas son \textbf{alternativas} a tu flujo de trabajo actual no una sustitución\footnote{A menos que te guste probar cosas \textit{cold turky}}.
+\end{frame}
+
 \section{Motivaciones}
 
 \begin{frame}{¿Porqué migrar \textit{Overleaf} $\rightarrow$ \texttt{git}?}
@@ -84,13 +105,9 @@
 		\item <1-> Tiempo de compilación ilimitado\footnote{Dependerá de la tostadora que uses como compu}
 		\item <2-> No tienes que pagar para trabajo colaborativo\footnote{No tienes que compartir tu cuenta}
 		\item <3-> Lo anterior es mentira, si pagaste por tu compu. Usala \texttt{:-)}
-		\item <5-> Control de versiones de tus documentos grado industrial
-		\item <6-> Puedes usar LLM locales y de pago como asistentes de escritura
+		\item <4-> Control de versiones de tus documentos grado industrial
+		\item <5-> Puedes usar LLM locales y de pago como asistentes de escritura
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-\Large Estas herramientas son \textbf{alternativas} a tu flujo de trabajo actual no una sustitución.
 \end{frame}
 
 \begin{frame}[fragile]{Check check check}
@@ -200,18 +217,18 @@
 
 	\begin{alertblock}{Commandos}
 		\begin{itemize}
-			\item \texttt{\$ git add} $\rightarrow$ Mueve archivos al área de \alert{staging}\footnote{Esta área es previa a cambios definitivos (\alert{commit})}
+			\item <1-> \texttt{\$ git add} $\rightarrow$ Mueve archivos al área de \alert{staging}\footnote{Esta área es previa a cambios definitivos (\alert{commit})}
 			\begin{itemize}
 				\item Agregar achivos individuales - \texttt{git add main.py}
 				\item Agregar por extension - \texttt{git add *.cpp}
 				\item Agregar todo en un directorio - \texttt{git add .}
 			\end{itemize} 
-			\item \texttt{\$ git commit} $\rightarrow$ Confirma los cambios que esten en el area de \alert{staging}. Se crea un punto en la historia del proyecto.
-			\item \texttt{\$ git restore} $\rightarrow$ Devuelve el archivo al estado original del último \alert{commit}.
+			\item <2-> \texttt{\$ git commit} $\rightarrow$ Confirma los cambios que esten en el area de \alert{staging}. Se crea un punto en la historia del proyecto.
+			\item <3-> \texttt{\$ git restore} $\rightarrow$ Devuelve el archivo al estado original del último \alert{commit}.
 			\begin{itemize}
 				\item Agregar mensaje de confirmación - \texttt{git commit -m ``Mensaje''}
 			\end{itemize}
-			\item \texttt{\$ git restore ---staged} $\rightarrow$ Descarta los cambios del área de \alert{staging}\footnote{Esto es, devolverlos al \alert{working directory}}.
+			\item <4-> \texttt{\$ git restore ---staged} $\rightarrow$ Descarta los cambios del área de \alert{staging}\footnote{Esto es, devolverlos al \alert{working directory}}.
 		\end{itemize}
 	\end{alertblock}
 \end{frame}
@@ -314,6 +331,13 @@
 	\end{alertblock}
 \end{frame}
 
+\begin{frame}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{img/git_meme.png}
+	\end{figure}
+\end{frame}
+
 \section{Trabajo colaborativo}
 
 \begin{frame}{Plataformas de alojamiento}
@@ -379,7 +403,7 @@
 
 \begin{frame}{Personal Access Token (PAT)}
 	Este token nos permitirá comunicarnos con el alojamiento remoto sin necesidad de usar nuestra contraseña real\footnote{GitHub ya no soporta utilizar la contraseña real por seguridad}.
-
+	\pause
 	\begin{exampleblock}{Pasos para GitHub}
 		\begin{enumerate}
 			\item \textbf{Configuración:} Ve a \textit{Settings} $\rightarrow$ \textit{Developer settings}.
@@ -455,7 +479,16 @@
 
 \begin{frame}{Resolución de conflictos}
 	 
-     Un \alert{conflicto}\footnote{Un conflicto no es un error del sistema, es una solicitud de intervención humana para evitar la pérdida de datos.} ocurre cuando dos personas (o dos ramas) modifican la \textbf{misma línea} del \textbf{mismo archivo}, y Git no puede decidir automáticamente cuál versión mantener.
+     Un \alert{conflicto}\footnote{Un conflicto no es un error del sistema, es una solicitud de intervención humana para evitar la pérdida de datos.} ocurre cuando dos personas (o dos ramas) modifican la \textbf{misma línea} del \textbf{mismo archivo}, y \texttt{git} no puede decidir automáticamente cuál versión mantener.
+
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\textwidth]{img/merge_conflict.png}
+	\end{figure}
+
 \end{frame}
 
 \begin{frame}{Flujo de resolución}
@@ -469,22 +502,82 @@
 
 \section{Desarrollo latex local}
 
+\begin{frame}{Latex Workshop}
+	Latex workshop es una extensión para \texttt{VS Code} que brinda características convenientes para escribir textos en latex. 
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.4\textwidth]{img/latex_workshop.png}
+		\caption{\url{https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop}}
+	\end{figure}
+\end{frame}
+
 \section{Modelos del lenguaje locales (o casi)}
 
 \begin{frame}{Herramientas}
-	
+	\begin{columns}[t] % [t] aligns columns at the top
+        % First Row
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{img/ollama.png} \\
+                \small \url{https://ollama.com/}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{img/continue.png}	
+                \small \url{https://marketplace.visualstudio.com/items?itemName=Continue.continue}
+            \end{figure}
+        \end{column}
+    \end{columns}
 \end{frame}
 
-\begin{frame}{Config basica}
-	
+\begin{frame}[fragile]{Comandos básicos de ollama}
+	\begin{verbatim}
+		$ ollama serve
+		$ ollama pull <model:tag>
+		$ ollama ls
+		$ ollama run <model>
+	\end{verbatim}
 \end{frame}
 
+\begin{frame}[fragile]{Config basica}
 
+    \begin{verbatim}
+	models:
+	  - name: Autodetect
+	    provider: ollama
+	    model: AUTODETECT
+	    roles:
+	      - chat
+	      - edit
+	      - apply
+	      - rerank
+	      - autocomplete
+	\end{verbatim}
+\end{frame}
 
-\begin{frame}[allowframebreaks]{Referencias}
-	\small
-    %\bibliographystyle{plain}
-    %\bibliography{bibliografia}
+\begin{frame}{Dónde encontrar ayuda}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{img/lidsol.png}
+		\caption{\url{https://lidsol.unam.mx}}
+	\end{figure}
+
+	\begin{itemize}
+		\item \href{https://www.youtube.com/playlist?list=PLvd_owpd6H-knKHAikePrqLwMrVje2dY9}{Curso de git}
+		\item \href{https://www.youtube.com/playlist?list=PLvd_owpd6H-kSoqbbvdGc_Pg3YRytK8ZN}{Curso de \LaTeX}
+		\item \href{https://git-scm.com/book/es/v2}{Libro de git}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{img/fin.jpg}
+	\end{figure}	
 \end{frame}
 
 \end{document}
